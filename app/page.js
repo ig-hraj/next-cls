@@ -203,44 +203,191 @@
 
 //CSR form
 
+// "use client"
+
+// import { useState } from "react";
+
+// export default function Home()
+// {
+//   const [name, SetName] = useState("");
+//   const [color, SetColor] = useState("");
+
+//   function handleSubmit(e)
+//   {
+//     e.preventDefault();
+//     alert("Hello " + name)
+//   }
+
+//   return(
+//     <div>
+//       <h1>Student Form</h1>
+
+//       <form onSubmit={handleSubmit}>
+//         <input type="text" 
+//         placeholder="Enter Your Name" 
+//         value={name} 
+//         onChange={(e) => SetName(e.target.value)}/>
+
+//         <br /><br />
+
+//         <select value={color} onChange={(e) => SetColor(e.target.value)}>
+//           <option value="">Select Favourite Color</option>
+//           <option value="Red">Red</option>
+//           <option value="Green">Green</option>
+//           <option value="Blue">Blue</option>
+//         </select>
+
+//         <p>Your Favourite Color: {color}</p>
+
+//         <button type="submit">Submit</button>
+//       </form>
+//     </div>
+//   )
+// }
+
+
+//Registration form - Validation
+
+// "use client"
+
+// import { useState } from "react"
+
+// export default function Home(){
+//   const [name, setName] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [age, setAge] = useState("");
+//   const [password, setPassword] = useState("");
+
+//   const [error, setError] = useState("");
+//   const [success, setSuccess] = useState("");
+
+//   function handleSubmit(e)
+//   {
+//     e.preventDefault();
+
+//     setError("");
+//     setSuccess("");
+
+//     //1. Check empty fields
+//     if(!name || !email || !age || !password)
+//     {
+//       setError("All fields are required");
+//       return;
+//     }
+
+//     //2. Check name
+//     if(name.length < 3){
+//       setError("Name must contain atleast 3 characters");
+//       return;
+//     }
+
+//     //3. Check Email
+//     if(!email.includes("@")){
+//       setError("Enter a valid Email");
+//       return;
+//     }
+
+//     //4. Check Age
+//     if(age < 18){
+//       setError("Age must be above 18");
+//       return;
+//     }
+
+//     //5. Check password
+//     if(password.length < 6){
+//       setError("Password must contain atleast 6 characters");
+//       return;
+//     }
+
+//     setSuccess("Registration successfully done!")
+//   }
+
+//   return(
+//     <div>
+//       <h1>Student Registration</h1>
+
+//       <form onSubmit={handleSubmit}>
+//         <div>
+//           <label>Name:</label>
+//           <input
+//             type="text"
+//             placeholder="Enter Name"
+//             value={name}
+//             onChange={(e) => setName(e.target.value)}
+//           />
+//         </div>
+
+//         <div>
+//           <label>Email:</label>
+//           <input
+//             type="text"
+//             placeholder="Enter Email"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//           />
+//         </div>
+
+//         <div>
+//           <label>Age:</label>
+//           <input
+//             type="text"
+//             placeholder="Enter Age"
+//             value={age}
+//             onChange={(e) => setAge(e.target.value)}
+//           />
+//         </div>
+
+//         <div>
+//           <label>Password:</label>
+//           <input
+//             type="password"
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//           />
+//         </div>
+
+//         <button type="submit">Register</button>
+//       </form>
+
+//       {error && <p>{error}</p>}
+//       {success && <p>{success}</p>}
+//     </div>
+//   )
+// }
+
+// "use client"
+
+// import { uploadFile } from "./actions"
+
+// export default function Home(){
+//   return(
+//     <form action="{uploadFile}">
+//       <input type="text" name="file"/>
+//       <button type="submit">Upload</button>
+//     </form>
+//   )
+// }
+
 "use client"
 
-import { useState } from "react";
+import { useActionState } from "react"
+import { uploadFile } from "./actions"
 
-export default function Home()
-{
-  const [name, SetName] = useState("");
-  const [color, SetColor] = useState("");
-
-  function handleSubmit(e)
-  {
-    e.preventDefault();
-    alert("Hello " + name)
-  }
+export default function Home(){
+  const [message, formAction] = useActionState(uploadFile,"");
 
   return(
     <div>
-      <h1>Student Form</h1>
+      <h1>File Upload</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input type="text" 
-        placeholder="Enter Your Name" 
-        value={name} 
-        onChange={(e) => SetName(e.target.value)}/>
+      <form action="{formAction}">
+        <input type="file" name="file"/>
+        <br />
+        <br />
 
-        <br /><br />
-
-        <select value={color} onChange={(e) => SetColor(e.target.value)}>
-          <option value="">Select Favourite Color</option>
-          <option value="Red">Red</option>
-          <option value="Green">Green</option>
-          <option value="Blue">Blue</option>
-        </select>
-
-        <p>Your Favourite Color: {color}</p>
-
-        <button type="submit">Submit</button>
+        <button type="submit">Upload</button>
       </form>
+      <p>{message}</p>
     </div>
   )
 }
