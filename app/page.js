@@ -368,26 +368,58 @@
 //   )
 // }
 
-"use client"
+// "use client"
 
-import { useActionState } from "react"
-import { uploadFile } from "./actions"
+// import { useActionState } from "react"
+// import { uploadFile } from "./actions"
 
-export default function Home(){
-  const [message, formAction] = useActionState(uploadFile,"");
+// export default function Home(){
+//   const [message, formAction] = useActionState(uploadFile,"");
 
-  return(
+//   return(
+//     <div>
+//       <h1>File Upload</h1>
+
+//       <form action="{formAction}">
+//         <input type="file" name="file"/>
+//         <br />
+//         <br />
+
+//         <button type="submit">Upload</button>
+//       </form>
+//       <p>{message}</p>
+//     </div>
+//   )
+// }
+
+"use client";
+
+import { useState } from "react";
+
+export default function Home() {
+  const [like, setLikes] = useState(10);
+
+  async function likePost() {
+    // Fixed: Direct update using the current state value
+    setLikes(like + 1); 
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    console.log("Server operation completed");
+  }
+
+  async function dislikePost() {
+    // Fixed: Changed 'setDislikes' to 'setLikes' and used direct update
+    setLikes(like - 1); 
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    console.log("Server operation completed");
+  }
+
+  return (
     <div>
-      <h1>File Upload</h1>
-
-      <form action="{formAction}">
-        <input type="file" name="file"/>
-        <br />
-        <br />
-
-        <button type="submit">Upload</button>
-      </form>
-      <p>{message}</p>
+      <p>Like: {like}</p>
+      <button onClick={likePost}>Like</button>
+      <button onClick={dislikePost}>DisLike</button>
     </div>
-  )
+  );
 }
